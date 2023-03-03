@@ -9,28 +9,7 @@ import Sidebarchat from "./Sidebarchat";
 function Sidebar() {
   return (
     <div className="sidebar">
-      <div className="sidebar_header">
-        <Avatar src="https://avatars.githubusercontent.com/u/31394639?s=40&v=4" />
-        <div className="sidebar_headerRight">
-          <IconButton>
-            <DonutLargeIcon />
-          </IconButton>
-          <IconButton>
-            <ChatIcon />
-          </IconButton>
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
-        </div>
-      </div>
-
-      <div className="sidebar_search">
-        <div className="sidebar_searchContainer">
-          <SearchOutlinedIcon />
-          <input type="text" placeholder="Serach or start new chat" />
-        </div>
-      </div>
-
+      <hr />
       <div className="sidebar_chats">
         <Sidebarchat />
         <Sidebarchat />

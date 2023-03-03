@@ -1,11 +1,7 @@
 import { Avatar, Icon, IconButton } from "@mui/material";
 import React, { useState } from "react";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import SearchIcon from "@mui/icons-material/Search";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
+import SendIcon from "@mui/icons-material/Send";
 import "./Chat.css";
-import MicIcon from "@mui/icons-material/Mic";
 import axios from "../axios";
 
 function Chat({ messages }) {
@@ -24,24 +20,13 @@ function Chat({ messages }) {
   return (
     <div className="chat">
       <div className="chat_header">
-        <Avatar></Avatar>
+        <Avatar src="https://avatars.githubusercontent.com/u/31394639?s=40&v=4"></Avatar>
 
         <div className="chat_headerInfo">
-          <h3>Room name</h3>
-          <p>Last seen at...</p>
+          <h3>Mehmet Nadi</h3>
         </div>
 
-        <div className="chat_headerRight">
-          <IconButton>
-            <SearchIcon />
-          </IconButton>
-          <IconButton>
-            <AttachFileIcon />
-          </IconButton>
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
-        </div>
+        <div className="chat_headerRight"></div>
       </div>
 
       <div className="chat_body">
@@ -54,13 +39,34 @@ function Chat({ messages }) {
             </p>
           );
         })}
+        <p className={`chat_message chat_reciever`}>
+          <span className="chat_name">Mehmet Nadi</span>A message here. Read
+          this. idk this supposed to be a msg.
+          <span className="chat_timestamp">Now</span>
+        </p>
+        <p className={`chat_message`}>
+          <span className="chat_name">Mehmet Nadi</span>A message here. Read
+          this. idk this supposed to be a msg.
+          <span className="chat_timestamp">Now</span>
+        </p>
+        <p className={`chat_message `}>
+          <span className="chat_name">Mehmet Nadi</span>A message here. Read
+          this. idk this supposed to be a msg.
+          <span className="chat_timestamp">Now</span>
+        </p>
+        <p className={`chat_message chat_reciever`}>
+          <span className="chat_name">Mehmet Nadi</span>A message here. Read
+          this. idk this supposed to be a msg.
+          <span className="chat_timestamp">Now</span>
+        </p>
+        <p className={`chat_message chat_reciever`}>
+          <span className="chat_name">Mehmet Nadi</span>A message here. Read
+          this. idk this supposed to be a msg.
+          <span className="chat_timestamp">Now</span>
+        </p>
       </div>
 
       <div className="chat_footer">
-        <IconButton>
-          <SentimentSatisfiedAltIcon />
-        </IconButton>
-
         <form>
           <input
             value={newMsg}
@@ -69,10 +75,11 @@ function Chat({ messages }) {
             placeholder="Type a message"
           />
           <button onClick={sendMessage} type="submit">
-            Send a message
+            <IconButton>
+              <SendIcon />
+            </IconButton>
           </button>
         </form>
-        <MicIcon />
       </div>
     </div>
   );
