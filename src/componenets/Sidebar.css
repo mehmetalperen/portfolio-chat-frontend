@@ -1,0 +1,55 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  flex: 0.35; /*  35 percent of the space */
+}
+
+.sidebar_header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  border-right: 1px solid lightgray;
+}
+
+.sidebar_headerRight {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 10vh;
+}
+
+.sidebar_search {
+  display: flex;
+  align-items: center;
+  background-color: #f6f6f6;
+  height: 39px;
+  padding: 10px;
+}
+
+.sidebar_searchContainer {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  width: 100%;
+  height: 35px;
+  border-radius: 20px;
+}
+.sidebar_searchContainer > .MuiSvgIcon-root {
+  /* targetting the search icon in sidebar_serachContainer*/
+  color: gray;
+  padding: 10px;
+}
+
+.sidebar_searchContainer > input {
+  border: none;
+  margin-left: 10px;
+  outline-width: 0;
+  /*An outline is a border that appears around an element (outside the border) to indicate that it is selected or focused.
+  we get rid of  the blue box that appear on focus*/
+}
+
+.sidebar_chats {
+  flex: 1;
+  background-color: white;
+  overflow: scroll;
+}
