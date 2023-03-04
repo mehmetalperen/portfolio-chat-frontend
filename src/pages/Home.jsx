@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import "./App.css";
-import Chat from "./componenets/Chat";
-import Sidebar from "./componenets/Sidebar";
+import "./Home.css";
+import Chat from "../componenets/Chat";
+import Sidebar from "../componenets/Sidebar";
 import Pusher from "pusher-js";
-import axios from "./axios";
-import Home from "./pages/Home";
+import axios from "../axios";
 
-function App() {
+function Home() {
   const [messages, setMessages] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   useEffect(() => {
@@ -34,10 +33,13 @@ function App() {
   }, [messages]);
 
   return (
-    <div className={`app`}>
-      <Home />
+    <div className={`home`}>
+      <div className="home_body">
+        {isAdmin && <Sidebar />}
+        <Chat messages={messages} />
+      </div>
     </div>
   );
 }
 
-export default App;
+export default Home;
