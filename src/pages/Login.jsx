@@ -17,13 +17,13 @@ export default function () {
           <p className="mb-2">To start our legendary conversation:</p>
           <div className="d-grid mb-2">
             <button
-              className="btn btn-outline-dark home-btns"
+              className="btn btn-outline-dark home-btns mb-0 mt-1"
               onClick={() => console.log("fart")}
             >
-              <i className="fab fa-google me-2"></i> Sign in with Google
+              <i className="fab fa-google mb-0"></i> Sign in with Google
             </button>
           </div>
-          <p className="disclamier">No selling emails. No newsettelers.</p>
+          <p className="disclamier mt-0">No selling emails. No newsettelers.</p>
         </div>
       </div>
     </>
