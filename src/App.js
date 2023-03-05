@@ -5,6 +5,7 @@ import Sidebar from "./componenets/Sidebar";
 import Pusher from "pusher-js";
 import axios from "./axios";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
 
 function App() {
   const [messages, setMessages] = useState([]);
@@ -35,7 +36,8 @@ function App() {
 
   return (
     <div className={`app`}>
-      <Home />
+      <Login />
+      {/* <Home /> */}
     </div>
   );
 }
