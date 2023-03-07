@@ -4,17 +4,21 @@ import Chat from "../componenets/Chat";
 import Sidebar from "../componenets/Sidebar";
 import Pusher from "pusher-js";
 import axios from "../axios";
+import { UserAuth } from "../contex/AuthContex";
+import LoginErrPage from "./LoginErrPage";
 
 function Home() {
   const [messages, setMessages] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
+  const { user } = UserAuth();
+
   useEffect(() => {
     axios.get("/messages/sync").then((response) => {
       setMessages(response.data);
     });
   }, []);
 
-  console.log(messages);
+  console.log(user);
 
   useEffect(() => {
     //listener for the pusher

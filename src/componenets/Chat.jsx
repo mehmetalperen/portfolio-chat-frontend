@@ -1,11 +1,14 @@
-import { Avatar, Icon, IconButton } from "@mui/material";
+import { Avatar, IconButton } from "@mui/material";
 import React, { useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import "./Chat.css";
 import axios from "../axios";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { UserAuth } from "../contex/AuthContex";
 
 function Chat({ messages }) {
   const [newMsg, setNewMsg] = useState("");
+  const { user, logout } = UserAuth();
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -17,6 +20,14 @@ function Chat({ messages }) {
     });
     setNewMsg("");
   };
+
+  const handleSignOut = async () => {
+    try {
+      await logout();
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
   return (
     <div className="chat">
       <div className="chat_header">
@@ -26,7 +37,11 @@ function Chat({ messages }) {
           <h3>Mehmet Nadi</h3>
         </div>
 
-        <div className="chat_headerRight"></div>
+        <div className="chat_headerRight">
+          <IconButton onClick={handleSignOut}>
+            <LogoutIcon />
+          </IconButton>
+        </div>
       </div>
 
       <div className="chat_body">

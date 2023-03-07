@@ -1,8 +1,22 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCkoQ3hZbmCcH4oYshkRsRFx23E1ShnrrI",
-  authDomain: "whatsapp-clone-3946c.firebaseapp.com",
-  projectId: "whatsapp-clone-3946c",
-  storageBucket: "whatsapp-clone-3946c.appspot.com",
-  messagingSenderId: "370501184305",
-  appId: "1:370501184305:web:e5b94fd445f49558a49e10",
+  apiKey: "AIzaSyCjZ8BLVqmwZbiat0EmfTYpCSb7moM1K1w",
+  authDomain: "portfolio-chat-90fb1.firebaseapp.com",
+  projectId: "portfolio-chat-90fb1",
+  storageBucket: "portfolio-chat-90fb1.appspot.com",
+  messagingSenderId: "750256267899",
+  appId: "1:750256267899:web:52d0505c70ed16c14f38de",
+  measurementId: "G-XKXGK0QB7C",
 };
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);

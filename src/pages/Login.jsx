@@ -1,7 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Login.css";
 import { Avatar } from "@mui/material";
+import { UserAuth } from "../contex/AuthContex";
+import { useNavigate } from "react-router-dom";
 export default function () {
+  const { googleSignIn, user } = UserAuth();
+  const navigate = useNavigate();
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await googleSignIn();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    if (user != null) {
+      navigate("/chat");
+    }
+  }, [user]);
   return (
     <>
       <div className="login container">
@@ -18,7 +36,7 @@ export default function () {
           <div className="d-grid mb-2">
             <button
               className="btn btn-outline-dark home-btns mb-0 mt-1"
-              onClick={() => console.log("fart")}
+              onClick={handleGoogleSignIn}
             >
               <i className="fab fa-google mb-0"></i> Sign in with Google
             </button>
