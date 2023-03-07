@@ -2,7 +2,6 @@ import { Avatar, IconButton } from "@mui/material";
 import React, { useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import "./Chat.css";
-import axios from "../axios";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { UserAuth } from "../contex/AuthContex";
 
@@ -12,12 +11,7 @@ function Chat({ messages }) {
 
   const sendMessage = async (e) => {
     e.preventDefault();
-    await axios.post("/api/messages/new", {
-      message: newMsg,
-      name: "You",
-      timestamp: "just now",
-      received: true,
-    });
+
     setNewMsg("");
   };
 

@@ -3,6 +3,7 @@ import "./Login.css";
 import { Avatar } from "@mui/material";
 import { UserAuth } from "../contex/AuthContex";
 import { useNavigate } from "react-router-dom";
+
 export default function () {
   const { googleSignIn, user } = UserAuth();
   const navigate = useNavigate();
