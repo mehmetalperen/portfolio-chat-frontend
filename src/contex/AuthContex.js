@@ -6,6 +6,7 @@ const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({});
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -16,9 +17,14 @@ export const AuthContextProvider = ({ children }) => {
       unsubscribe();
     };
   }, []);
-
+  const updateAdminRole = (role) => {
+    setIsAdmin(role);
+    console.log("is admin: ", role);
+  };
   return (
-    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, updateAdminRole, isAdmin }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

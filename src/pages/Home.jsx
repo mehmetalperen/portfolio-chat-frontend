@@ -3,11 +3,10 @@ import "./Home.css";
 import Chat from "../componenets/Chat";
 import Sidebar from "../componenets/Sidebar";
 import Pusher from "pusher-js";
-
+import { UserAuth } from "../contex/AuthContex";
 function Home() {
   const [messages, setMessages] = useState([]);
-  const [isAdmin, setIsAdmin] = useState(false);
-
+  const { user, isAdmin } = UserAuth();
   useEffect(() => {
     //listener for the pusher
     const pusher = new Pusher("b23f5e99ce5b8bebe530", {
@@ -24,6 +23,7 @@ function Home() {
     };
   }, [messages]);
 
+  console.log(user);
   return (
     <div className={`home`}>
       <div className="home_body">

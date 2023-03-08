@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Login.css";
 import { Avatar } from "@mui/material";
 import { UserAuth } from "../contex/AuthContex";
@@ -8,14 +8,14 @@ import { auth, db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
 
 export default function () {
-  const { user } = UserAuth();
+  const { user, updateAdminRole, isAdmin } = UserAuth();
   const navigate = useNavigate();
 
   const handleGoogleSignIn = async () => {
     try {
       const provider = new GoogleAuthProvider();
       const res = await signInWithPopup(auth, provider);
-      console.log(res);
+      updateAdminRole(res.user.email === "mhmtalperennadi@gmail.com");
       await setDoc(doc(db, "users", res.user.uid), {
         uid: res.user.uid,
         displayName: res.user.displayName,
@@ -25,6 +25,7 @@ export default function () {
 
       //create empty user chats on firestore
       await setDoc(doc(db, "userChats", res.user.uid), {});
+
       navigate("/chat");
     } catch (err) {
       console.log(err);
