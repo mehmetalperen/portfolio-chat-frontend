@@ -3,14 +3,18 @@ import "./Login.css";
 import { Avatar } from "@mui/material";
 import { UserAuth } from "../contex/AuthContex";
 import { useNavigate } from "react-router-dom";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "../firebase";
 
 export default function () {
-  const { googleSignIn, user } = UserAuth();
+  const { user } = UserAuth();
   const navigate = useNavigate();
 
   const handleGoogleSignIn = async () => {
     try {
-      await googleSignIn();
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(auth, provider);
+      navigate("/chat");
     } catch (err) {
       console.log(err);
     }

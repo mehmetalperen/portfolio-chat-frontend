@@ -3,12 +3,13 @@ import React, { useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import "./Chat.css";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { UserAuth } from "../contex/AuthContex";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 function Chat({ messages }) {
   const [newMsg, setNewMsg] = useState("");
-  const { user, logout } = UserAuth();
-
+  const navigate = useNavigate();
   const sendMessage = async (e) => {
     e.preventDefault();
 
@@ -17,7 +18,8 @@ function Chat({ messages }) {
 
   const handleSignOut = async () => {
     try {
-      await logout();
+      signOut(auth);
+      navigate("/login");
     } catch (err) {
       console.log("err", err);
     }

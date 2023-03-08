@@ -3,17 +3,10 @@ import "./Home.css";
 import Chat from "../componenets/Chat";
 import Sidebar from "../componenets/Sidebar";
 import Pusher from "pusher-js";
-import { UserAuth } from "../contex/AuthContex";
-import LoginErrPage from "./LoginErrPage";
 
 function Home() {
   const [messages, setMessages] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
-  const { user } = UserAuth();
-
-  useEffect(() => {}, []);
-
-  console.log(user);
 
   useEffect(() => {
     //listener for the pusher
