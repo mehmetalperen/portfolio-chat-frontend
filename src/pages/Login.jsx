@@ -4,7 +4,8 @@ import { Avatar } from "@mui/material";
 import { UserAuth } from "../contex/AuthContex";
 import { useNavigate } from "react-router-dom";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 export default function () {
   const { user } = UserAuth();
@@ -13,7 +14,19 @@ export default function () {
   const handleGoogleSignIn = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      signInWithPopup(auth, provider);
+      const res = await signInWithPopup(auth, provider);
+      console.log(res);
+      await setDoc(doc(db, "users", res.user.uid), {
+        uid: res.user.uid,
+        displayName: res.user.displayName,
+        email: res.user.email,
+        isAdmin:
+          res.user.email === "mhmtalperennadi@gmail.com" ||
+          res.user.email === "mehmetnadi.real@gmail.com",
+      });
+
+      //create empty user chats on firestore
+      await setDoc(doc(db, "userChats", res.user.uid), {});
       navigate("/chat");
     } catch (err) {
       console.log(err);
