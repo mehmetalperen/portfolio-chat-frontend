@@ -20,9 +20,7 @@ export default function () {
         uid: res.user.uid,
         displayName: res.user.displayName,
         email: res.user.email,
-        isAdmin:
-          res.user.email === "mhmtalperennadi@gmail.com" ||
-          res.user.email === "mehmetnadi.real@gmail.com",
+        isAdmin: res.user.email === "mhmtalperennadi@gmail.com",
       });
 
       //create empty user chats on firestore
