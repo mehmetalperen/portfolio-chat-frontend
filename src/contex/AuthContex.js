@@ -12,6 +12,7 @@ export const AuthContextProvider = ({ children }) => {
       setUser(currentUser);
     });
     return () => {
+      // need clean up funtion to avoid mem leak if you're listening a realtime db
       unsubscribe();
     };
   }, []);
