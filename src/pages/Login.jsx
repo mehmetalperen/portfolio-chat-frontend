@@ -1,14 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./Login.css";
 import { Avatar } from "@mui/material";
 import { UserAuth } from "../contex/AuthContex";
 import { useNavigate } from "react-router-dom";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, db } from "../firebase";
-import { doc, setDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 
 export default function () {
-  const { user, updateAdminRole, isAdmin } = UserAuth();
+  const { user, updateAdminRole } = UserAuth();
   const navigate = useNavigate();
 
   const handleGoogleSignIn = async () => {
@@ -25,6 +31,34 @@ export default function () {
 
       //create empty user chats on firestore
       await setDoc(doc(db, "userChats", res.user.uid), {});
+
+      // if (!res.user.email === "mhmtalperennadi@gmail.com") {
+      //If not admin, create a chat with the admin
+      const chatWithAdminID = `${res.user.uid}KAFJPfX9eqegj1BfHyEnmINMJ222`;
+
+      const chatWithAdmin = await getDoc(doc(db, "chats", chatWithAdminID));
+
+      if (!chatWithAdmin.exists()) {
+        //create collection if no chat with admin found
+        await setDoc(doc(db, "chats", chatWithAdminID), { messages: [] });
+        // create user chats
+        await updateDoc(doc(db, "userChats", res.user.uid), {
+          [chatWithAdminID + ".userInfo"]: {
+            uid: "KAFJPfX9eqegj1BfHyEnmINMJ222",
+            displayName: "Mehmet Nadi",
+          },
+          [chatWithAdminID + ".date"]: serverTimestamp(),
+        });
+
+        await updateDoc(doc(db, "userChats", "KAFJPfX9eqegj1BfHyEnmINMJ222"), {
+          [chatWithAdminID + ".userInfo"]: {
+            uid: res.user.uid,
+            displayName: res.user.displayName,
+          },
+          [chatWithAdminID + ".date"]: serverTimestamp(),
+        });
+      }
+      // }
 
       navigate("/chat");
     } catch (err) {
