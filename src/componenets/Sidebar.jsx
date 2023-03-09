@@ -30,11 +30,16 @@ function Sidebar() {
   return (
     <div className="sidebar">
       <div className="sidebar_chats">
-        {Object.entries(users)?.map((user) => (
-          <div key={user[0]} onClick={() => handleSelectChat(user[1].userInfo)}>
-            <Sidebarchat id={user[0]} name={user[1].userInfo.displayName} />
-          </div>
-        ))}
+        {Object.entries(users)
+          ?.sort((a, b) => b[1].date - a[1].date)
+          .map((user) => (
+            <div
+              key={user[0]}
+              onClick={() => handleSelectChat(user[1].userInfo)}
+            >
+              <Sidebarchat id={user[0]} name={user[1].userInfo.displayName} />
+            </div>
+          ))}
       </div>
     </div>
   );

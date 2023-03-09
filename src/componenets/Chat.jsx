@@ -41,7 +41,7 @@ function Chat() {
         newMsg,
         senderId: user.uid,
         senderName: user.displayName,
-        data: Timestamp.now(),
+        date: Timestamp.now(),
       }),
     });
     setNewMsg("");

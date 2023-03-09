@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import "./Messages.css";
 import { UserAuth } from "../contex/AuthContex";
-import { UserChatContex } from "../contex/ChatContex";
 
 export default function Messages({ message }) {
   const { user } = UserAuth();
-  const { data } = UserChatContex();
 
+  const ref = useRef();
   console.log(message);
 
+  useEffect(() => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  }, [message]);
   return (
     <p
+      ref={ref}
       className={`chat_message ${
         message.senderId === user.uid ? "chat_reciever" : ""
       }`}
