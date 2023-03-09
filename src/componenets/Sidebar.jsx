@@ -1,40 +1,45 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Sidebar.css";
-import ChatIcon from "@mui/icons-material/Chat";
-import DonutLargeIcon from "@mui/icons-material/DonutLarge";
-import { Avatar, IconButton } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import Sidebarchat from "./Sidebarchat";
+import { db } from "../firebase";
+import { collection, doc, getDocs, onSnapshot } from "firebase/firestore";
+import { UserAuth } from "../contex/AuthContex";
+import { UserChatContex } from "../contex/ChatContex";
 function Sidebar() {
+  const { dispatch } = UserChatContex();
+  const [users, setUsers] = useState([]);
+  const { user } = UserAuth();
+
+  useEffect(() => {
+    const getChats = () => {
+      const unsubscribe = onSnapshot(doc(db, "userChats", user.uid), (doc) => {
+        setUsers(doc.data());
+      });
+      return () => {
+        unsubscribe();
+      };
+    };
+
+    user.uid && getChats();
+  }, [user.uid]);
+
+  const handleSelectChat = (userInfo) => {
+    dispatch({ type: "CHANGE_USER", payload: userInfo });
+  };
+
   return (
     <div className="sidebar">
-      <div className="sidebar_header">
-        <Avatar src="https://avatars.githubusercontent.com/u/31394639?s=40&v=4" />
-        <div className="sidebar_headerRight">
-          <IconButton>
-            <DonutLargeIcon />
-          </IconButton>
-          <IconButton>
-            <ChatIcon />
-          </IconButton>
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
-        </div>
-      </div>
-
-      <div className="sidebar_search">
-        <div className="sidebar_searchContainer">
-          <SearchOutlinedIcon />
-          <input type="text" placeholder="Serach or start new chat" />
-        </div>
-      </div>
-
       <div className="sidebar_chats">
-        <Sidebarchat />
-        <Sidebarchat />
-        <Sidebarchat />
+        {Object.entries(users)
+          ?.sort((a, b) => b[1].date - a[1].date)
+          .map((user) => (
+            <div
+              key={user[0]}
+              onClick={() => handleSelectChat(user[1].userInfo)}
+            >
+              <Sidebarchat id={user[0]} name={user[1].userInfo.displayName} />
+            </div>
+          ))}
       </div>
     </div>
   );

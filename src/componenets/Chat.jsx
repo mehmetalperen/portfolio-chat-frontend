@@ -1,66 +1,83 @@
-import { Avatar, Icon, IconButton } from "@mui/material";
-import React, { useState } from "react";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import SearchIcon from "@mui/icons-material/Search";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
+import { Avatar, IconButton } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import SendIcon from "@mui/icons-material/Send";
 import "./Chat.css";
-import MicIcon from "@mui/icons-material/Mic";
-import axios from "../axios";
-
-function Chat({ messages }) {
+import LogoutIcon from "@mui/icons-material/Logout";
+import { signOut } from "firebase/auth";
+import { auth, db } from "../firebase";
+import { useNavigate } from "react-router-dom";
+import { UserChatContex } from "../contex/ChatContex";
+import { UserAuth } from "../contex/AuthContex";
+import Messages from "./Messages";
+import {
+  arrayUnion,
+  doc,
+  onSnapshot,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
+import { v4 as uuid } from "uuid";
+function Chat() {
+  const { user } = UserAuth();
+  const { data } = UserChatContex();
   const [newMsg, setNewMsg] = useState("");
+  const navigate = useNavigate();
+  const [messages, setMessages] = useState([]);
 
+  useEffect(() => {
+    const unsubscribe = onSnapshot(doc(db, "chats", data.chatId), (doc) => {
+      doc.exists() && setMessages(doc.data().messages);
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [data.chatId]);
   const sendMessage = async (e) => {
     e.preventDefault();
-    await axios.post("/api/messages/new", {
-      message: newMsg,
-      name: "You",
-      timestamp: "just now",
-      received: true,
+
+    await updateDoc(doc(db, "chats", data.chatId), {
+      messages: arrayUnion({
+        id: uuid(),
+        newMsg,
+        senderId: user.uid,
+        senderName: user.displayName,
+        date: Timestamp.now(),
+      }),
     });
     setNewMsg("");
+  };
+
+  const handleSignOut = async () => {
+    try {
+      signOut(auth);
+      navigate("/login");
+    } catch (err) {
+      console.log("err", err);
+    }
   };
   return (
     <div className="chat">
       <div className="chat_header">
-        <Avatar></Avatar>
+        <Avatar src="https://avatars.githubusercontent.com/u/31394639?s=40&v=4"></Avatar>
 
         <div className="chat_headerInfo">
-          <h3>Room name</h3>
-          <p>Last seen at...</p>
+          <h3>Mehmet Nadi</h3>
         </div>
 
         <div className="chat_headerRight">
-          <IconButton>
-            <SearchIcon />
-          </IconButton>
-          <IconButton>
-            <AttachFileIcon />
-          </IconButton>
-          <IconButton>
-            <MoreVertIcon />
+          <IconButton onClick={handleSignOut}>
+            <LogoutIcon />
           </IconButton>
         </div>
       </div>
 
       <div className="chat_body">
-        {messages.map((msg) => {
-          return (
-            <p className={`chat_message ${msg.received && " chat_reciever"}`}>
-              <span className="chat_name">{msg.name}</span>
-              {msg.message}
-              <span className="chat_timestamp">{msg.timestamp}</span>
-            </p>
-          );
-        })}
+        {messages.map((msg) => (
+          <Messages message={msg} key={msg.id} />
+        ))}
       </div>
 
       <div className="chat_footer">
-        <IconButton>
-          <SentimentSatisfiedAltIcon />
-        </IconButton>
-
         <form>
           <input
             value={newMsg}
@@ -69,10 +86,11 @@ function Chat({ messages }) {
             placeholder="Type a message"
           />
           <button onClick={sendMessage} type="submit">
-            Send a message
+            <IconButton>
+              <SendIcon />
+            </IconButton>
           </button>
         </form>
-        <MicIcon />
       </div>
     </div>
   );

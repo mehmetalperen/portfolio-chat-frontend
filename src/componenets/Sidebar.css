@@ -1,7 +1,7 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  flex: 0.35; /*  35 percent of the space */
+  flex: 0.1; /*  35 percent of the space */
 }
 
 .sidebar_header {

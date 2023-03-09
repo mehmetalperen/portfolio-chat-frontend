@@ -1,14 +1,12 @@
-import { Avatar } from "@mui/material";
 import React from "react";
 import "./Sidebarchat.css";
 
-function Sidebarchat() {
+// key={user.id} id={user.id} name={user.displayName}
+function Sidebarchat({ id, name }) {
   return (
     <div className="sidebarChat">
-      <Avatar />
       <div className="sidebarChat_info">
-        <h2>Room Name</h2>
-        <p>Last msg in this room</p>
+        <h2>{name} </h2>
       </div>
     </div>
   );

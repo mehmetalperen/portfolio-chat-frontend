@@ -1,7 +1,7 @@
 .chat {
   display: flex;
   flex-direction: column;
-  flex: 0.65;
+  flex: 0.95;
 }
 .chat_header {
   padding: 20px;
@@ -25,36 +25,10 @@
 
 .chat_body {
   flex: 1;
-  background-image: url("https://w0.peakpx.com/wallpaper/557/521/HD-wallpaper-whatsapp-v-background-doodle-pattern-patterns-whatsapp-thumbnail.jpg");
   background-repeat: repeat;
   background-position: center;
   padding: 30px;
   overflow: scroll;
-}
-.chat_message {
-  position: relative;
-  font-size: 16px;
-  padding: 10px;
-  width: fit-content;
-  border-radius: 10px;
-  background-color: white;
-  margin-bottom: 30px;
-}
-
-.chat_timestamp {
-  margin-left: 10px;
-  font-size: xx-small;
-}
-
-.chat_name {
-  position: absolute;
-  top: -15px;
-  font-weight: 800;
-  font-size: xx-small;
-}
-.chat_reciever {
-  margin-left: auto;
-  background-color: #dcf8c6;
 }
 
 .chat_footer {
@@ -78,7 +52,8 @@
 }
 
 .chat_footer > form > button {
-  display: none;
+  border-width: 0;
+  background-color: transparent;
   /* this way we can still use the funcitonality of the button without it being visible.
   we wanna send the message when enter is pressed. */
 }
