@@ -21,16 +21,21 @@ export default function () {
     try {
       const provider = new GoogleAuthProvider();
       const res = await signInWithPopup(auth, provider);
-      updateAdminRole(res.user.email === "mhmtalperennadi@gmail.com");
-      await setDoc(doc(db, "users", res.user.uid), {
-        uid: res.user.uid,
-        displayName: res.user.displayName,
-        email: res.user.email,
-        isAdmin: res.user.email === "mhmtalperennadi@gmail.com",
-      });
 
-      //create empty user chats on firestore
-      await setDoc(doc(db, "userChats", res.user.uid), {});
+      updateAdminRole(res.user.email === "mhmtalperennadi@gmail.com");
+
+      const userDB = await getDoc(doc(db, "users", res.user.uid));
+
+      if (!userDB.exists()) {
+        await setDoc(doc(db, "users", res.user.uid), {
+          uid: res.user.uid,
+          displayName: res.user.displayName,
+          email: res.user.email,
+          isAdmin: res.user.email === "mhmtalperennadi@gmail.com",
+        });
+        //create empty user chats on firestore
+        await setDoc(doc(db, "userChats", res.user.uid), {});
+      }
 
       //If not admin, create a chat with the admin
       const chatWithAdminID = `${res.user.uid}KAFJPfX9eqegj1BfHyEnmINMJ222`;
