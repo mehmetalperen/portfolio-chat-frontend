@@ -40,6 +40,7 @@ function Chat() {
         id: uuid(),
         newMsg,
         senderId: user.uid,
+        senderName: user.displayName,
         data: Timestamp.now(),
       }),
     });
@@ -60,7 +61,7 @@ function Chat() {
         <Avatar src="https://avatars.githubusercontent.com/u/31394639?s=40&v=4"></Avatar>
 
         <div className="chat_headerInfo">
-          <h3>{data.user?.displayName}</h3>
+          <h3>Mehmet Nadi</h3>
         </div>
 
         <div className="chat_headerRight">

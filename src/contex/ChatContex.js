@@ -1,21 +1,14 @@
 import { createContext, useReducer, useContext } from "react";
-import { UserAuth } from "./AuthContex";
 
 const ChatContex = createContext();
 
 export const ChatContextProvider = ({ children }) => {
-  const { user, isAdmin } = UserAuth();
   const INITIAL_STATE = {
     chatId: "null",
     user: {},
   };
 
   const chatReducer = (state, action) => {
-    if (isAdmin) {
-      console.log("ADMIN");
-    } else {
-      console.log("YOU ARE NOT ADMIN!");
-    }
     switch (action.type) {
       case "CHANGE_USER":
         return {
