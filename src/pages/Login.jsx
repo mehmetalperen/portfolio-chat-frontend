@@ -32,7 +32,6 @@ export default function () {
       //create empty user chats on firestore
       await setDoc(doc(db, "userChats", res.user.uid), {});
 
-      // if (!res.user.email === "mhmtalperennadi@gmail.com") {
       //If not admin, create a chat with the admin
       const chatWithAdminID = `${res.user.uid}KAFJPfX9eqegj1BfHyEnmINMJ222`;
 
@@ -58,7 +57,6 @@ export default function () {
           [chatWithAdminID + ".date"]: serverTimestamp(),
         });
       }
-      // }
 
       navigate("/chat");
     } catch (err) {
