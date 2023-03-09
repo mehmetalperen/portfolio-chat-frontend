@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import { AuthContextProvider } from "./contex/AuthContex";
 import Protected from "./protected/Protected";
 import { ChatContextProvider } from "./contex/ChatContex";
+
 function App() {
   return (
     <div className={`app`}>
