@@ -50,7 +50,7 @@ function Chat() {
   const handleSignOut = async () => {
     try {
       signOut(auth);
-      navigate("/login");
+      navigate("/");
     } catch (err) {
       console.log("err", err);
     }
