@@ -2,41 +2,38 @@ import React, { useState, useEffect } from "react";
 import "./Sidebar.css";
 import Sidebarchat from "./Sidebarchat";
 import { db } from "../firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDocs, onSnapshot } from "firebase/firestore";
+import { UserAuth } from "../contex/AuthContex";
 function Sidebar() {
   const [users, setUsers] = useState([]);
+  const { user } = UserAuth();
 
   useEffect(() => {
-    const getUsers = async () => {
-      const querySnapshot = await getDocs(collection(db, "users"));
-      const res = [];
-      querySnapshot.forEach((doc) => {
-        res.push({
-          id: doc.id,
-          data: doc.data(),
-        });
+    const getChats = () => {
+      const unsubscribe = onSnapshot(doc(db, "userChats", user.uid), (doc) => {
+        setUsers(doc.data());
       });
-      setUsers(res);
+      return () => {
+        unsubscribe();
+      };
     };
-    getUsers();
-  }, []);
+
+    user.uid && getChats();
+  }, [user.uid]);
 
   const handleSelectChat = async () => {};
 
   useEffect(() => {
-    console.log(users);
+    console.log(Object.entries(users));
   }, [users]);
   return (
     <div className="sidebar">
       <div className="sidebar_chats">
-        {users.map(
-          (user) =>
-            !user.data.isAdmin && (
-              <div key={user.data.id} onClick={handleSelectChat}>
-                <Sidebarchat id={user.data.id} name={user.data.displayName} />
-              </div>
-            )
-        )}
+        {Object.entries(users)?.map((user) => (
+          <div key={user[0]} onClick={handleSelectChat}>
+            <Sidebarchat id={user[0]} name={user[1].userInfo.displayName} />
+          </div>
+        ))}
       </div>
     </div>
   );
