@@ -19,7 +19,6 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
   const updateAdminRole = (role) => {
     setIsAdmin(role);
-    console.log("is admin: ", role);
   };
   return (
     <AuthContext.Provider value={{ user, updateAdminRole, isAdmin }}>

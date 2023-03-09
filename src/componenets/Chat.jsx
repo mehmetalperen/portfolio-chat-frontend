@@ -1,18 +1,48 @@
 import { Avatar, IconButton } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SendIcon from "@mui/icons-material/Send";
 import "./Chat.css";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { signOut } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 import { useNavigate } from "react-router-dom";
-
-function Chat({ messages }) {
+import { UserChatContex } from "../contex/ChatContex";
+import { UserAuth } from "../contex/AuthContex";
+import Messages from "./Messages";
+import {
+  arrayUnion,
+  doc,
+  onSnapshot,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
+import { v4 as uuid } from "uuid";
+function Chat() {
+  const { user } = UserAuth();
+  const { data } = UserChatContex();
   const [newMsg, setNewMsg] = useState("");
   const navigate = useNavigate();
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(doc(db, "chats", data.chatId), (doc) => {
+      doc.exists() && setMessages(doc.data().messages);
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [data.chatId]);
   const sendMessage = async (e) => {
     e.preventDefault();
 
+    await updateDoc(doc(db, "chats", data.chatId), {
+      messages: arrayUnion({
+        id: uuid(),
+        newMsg,
+        senderId: user.uid,
+        data: Timestamp.now(),
+      }),
+    });
     setNewMsg("");
   };
 
@@ -30,7 +60,7 @@ function Chat({ messages }) {
         <Avatar src="https://avatars.githubusercontent.com/u/31394639?s=40&v=4"></Avatar>
 
         <div className="chat_headerInfo">
-          <h3>Mehmet Nadi</h3>
+          <h3>{data.user?.displayName}</h3>
         </div>
 
         <div className="chat_headerRight">
@@ -41,40 +71,9 @@ function Chat({ messages }) {
       </div>
 
       <div className="chat_body">
-        {messages.map((msg) => {
-          return (
-            <p className={`chat_message ${msg.received && " chat_reciever"}`}>
-              <span className="chat_name">{msg.name}</span>
-              {msg.message}
-              <span className="chat_timestamp">{msg.timestamp}</span>
-            </p>
-          );
-        })}
-        <p className={`chat_message chat_reciever`}>
-          <span className="chat_name">Mehmet Nadi</span>A message here. Read
-          this. idk this supposed to be a msg.
-          <span className="chat_timestamp">Now</span>
-        </p>
-        <p className={`chat_message`}>
-          <span className="chat_name">Mehmet Nadi</span>A message here. Read
-          this. idk this supposed to be a msg.
-          <span className="chat_timestamp">Now</span>
-        </p>
-        <p className={`chat_message `}>
-          <span className="chat_name">Mehmet Nadi</span>A message here. Read
-          this. idk this supposed to be a msg.
-          <span className="chat_timestamp">Now</span>
-        </p>
-        <p className={`chat_message chat_reciever`}>
-          <span className="chat_name">Mehmet Nadi</span>A message here. Read
-          this. idk this supposed to be a msg.
-          <span className="chat_timestamp">Now</span>
-        </p>
-        <p className={`chat_message chat_reciever`}>
-          <span className="chat_name">Mehmet Nadi</span>A message here. Read
-          this. idk this supposed to be a msg.
-          <span className="chat_timestamp">Now</span>
-        </p>
+        {messages.map((msg) => (
+          <Messages message={msg} key={msg.id} />
+        ))}
       </div>
 
       <div className="chat_footer">

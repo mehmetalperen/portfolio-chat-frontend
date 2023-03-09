@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Sidebar.css";
 import Sidebarchat from "./Sidebarchat";
 import { db } from "../firebase";
 import { collection, doc, getDocs, onSnapshot } from "firebase/firestore";
 import { UserAuth } from "../contex/AuthContex";
+import { UserChatContex } from "../contex/ChatContex";
 function Sidebar() {
+  const { dispatch } = UserChatContex();
   const [users, setUsers] = useState([]);
   const { user } = UserAuth();
 
@@ -21,16 +23,15 @@ function Sidebar() {
     user.uid && getChats();
   }, [user.uid]);
 
-  const handleSelectChat = async () => {};
+  const handleSelectChat = (userInfo) => {
+    dispatch({ type: "CHANGE_USER", payload: userInfo });
+  };
 
-  useEffect(() => {
-    console.log(Object.entries(users));
-  }, [users]);
   return (
     <div className="sidebar">
       <div className="sidebar_chats">
         {Object.entries(users)?.map((user) => (
-          <div key={user[0]} onClick={handleSelectChat}>
+          <div key={user[0]} onClick={() => handleSelectChat(user[1].userInfo)}>
             <Sidebarchat id={user[0]} name={user[1].userInfo.displayName} />
           </div>
         ))}

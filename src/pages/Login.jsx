@@ -12,10 +12,12 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
+import { UserChatContex } from "../contex/ChatContex";
 
 export default function () {
   const { user, updateAdminRole } = UserAuth();
   const navigate = useNavigate();
+  const { dispatch } = UserChatContex();
 
   const handleGoogleSignIn = async () => {
     try {
@@ -63,6 +65,10 @@ export default function () {
         });
       }
 
+      dispatch({
+        type: "CHANGE_USER",
+        payload: { uid: res.user.uid, displayName: res.user.displayName },
+      });
       navigate("/chat");
     } catch (err) {
       console.log(err);
