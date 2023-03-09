@@ -12,7 +12,7 @@ function App() {
       <AuthContextProvider>
         <ChatContextProvider>
           <Routes>
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
             <Route
               path="/chat"
               element={
