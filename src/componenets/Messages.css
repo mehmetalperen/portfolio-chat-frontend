@@ -6,6 +6,7 @@
   border-radius: 10px;
   background-color: #dfe2e5;
   margin-bottom: 30px;
+  max-width: 70%;
 }
 .chat_reciever {
   margin-left: auto;
