@@ -42,9 +42,6 @@ function Chat() {
     };
   }, [data.chatId]);
 
-  useEffect(() => {
-    console.log(receiver);
-  }, [receiver]);
   const sendMessage = async (e) => {
     e.preventDefault();
 
