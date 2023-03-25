@@ -15,6 +15,7 @@ import {
   onSnapshot,
   Timestamp,
   updateDoc,
+  getDoc,
 } from "firebase/firestore";
 import { v4 as uuid } from "uuid";
 function Chat() {
@@ -23,15 +24,24 @@ function Chat() {
   const [newMsg, setNewMsg] = useState("");
   const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
+  const [receiver, setReceiver] = useState({});
 
   useEffect(() => {
     const unsubscribe = onSnapshot(doc(db, "chats", data.chatId), (doc) => {
       doc.exists() && setMessages(doc.data().messages);
     });
+    const unsubscribe2 = onSnapshot(
+      doc(db, "users", data.chatId.replace("KAFJPfX9eqegj1BfHyEnmINMJ222", "")),
+      (doc) => {
+        doc.exists() && setReceiver(doc.data());
+      }
+    );
     return () => {
       unsubscribe();
+      unsubscribe2();
     };
   }, [data.chatId]);
+
   const sendMessage = async (e) => {
     e.preventDefault();
 
@@ -42,6 +52,19 @@ function Chat() {
         senderId: user.uid,
         senderName: user.displayName,
         date: Timestamp.now(),
+        senderEmail: user.email,
+        receiverName:
+          receiver?.displayName === user.displayName
+            ? "Mehmet Nadi"
+            : receiver?.displayName,
+        receiverId:
+          receiver?.uid === user.uid
+            ? process.env.REACT_APP_ADMIN_ID
+            : receiver?.uid,
+        receiverEmail:
+          receiver?.email === user.email
+            ? "mhmtalperennadi@gmail.com"
+            : receiver?.email,
       }),
     });
     setNewMsg("");
