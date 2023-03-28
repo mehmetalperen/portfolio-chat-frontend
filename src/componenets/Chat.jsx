@@ -53,9 +53,18 @@ function Chat() {
         senderName: user.displayName,
         date: Timestamp.now(),
         senderEmail: user.email,
-        receiverName: receiver?.displayName,
-        receiverId: receiver?.uid,
-        receiverEmail: receiver?.email,
+        receiverName:
+          receiver?.displayName === user.displayName
+            ? "Mehmet Nadi"
+            : receiver?.displayName,
+        receiverId:
+          receiver?.uid === user.uid
+            ? process.env.REACT_APP_ADMIN_ID
+            : receiver?.uid,
+        receiverEmail:
+          receiver?.email === user.email
+            ? "mhmtalperennadi@gmail.com"
+            : receiver?.email,
       }),
     });
 
@@ -66,9 +75,18 @@ function Chat() {
         senderName: user.displayName,
         date: Timestamp.now(),
         senderEmail: user.email,
-        receiverName: receiver?.displayName,
-        receiverId: receiver?.uid,
-        receiverEmail: receiver?.email,
+        receiverName:
+          receiver?.displayName === user.displayName
+            ? "Mehmet Nadi"
+            : receiver?.displayName,
+        receiverId:
+          receiver?.uid === user.uid
+            ? process.env.REACT_APP_ADMIN_ID
+            : receiver?.uid,
+        receiverEmail:
+          receiver?.email === user.email
+            ? "mhmtalperennadi@gmail.com"
+            : receiver?.email,
       }),
     });
     setNewMsg("");
