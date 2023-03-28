@@ -13,7 +13,7 @@ export const ChatContextProvider = ({ children }) => {
       case "CHANGE_USER":
         return {
           user: action.payload,
-          chatId: `${action.payload.uid}${process.env.REACT_APP_ADMIN_ID}`,
+          chatId: `${action.payload.uid}KAFJPfX9eqegj1BfHyEnmINMJ222`,
         };
       default:
         return state;
