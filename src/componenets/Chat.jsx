@@ -59,7 +59,7 @@ function Chat() {
             : receiver?.displayName,
         receiverId:
           receiver?.uid === user.uid
-            ? process.env.REACT_APP_ADMIN_ID
+            ? "KAFJPfX9eqegj1BfHyEnmINMJ222"
             : receiver?.uid,
         receiverEmail:
           receiver?.email === user.email
@@ -81,7 +81,7 @@ function Chat() {
             : receiver?.displayName,
         receiverId:
           receiver?.uid === user.uid
-            ? process.env.REACT_APP_ADMIN_ID
+            ? "KAFJPfX9eqegj1BfHyEnmINMJ222"
             : receiver?.uid,
         receiverEmail:
           receiver?.email === user.email

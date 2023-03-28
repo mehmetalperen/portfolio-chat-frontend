@@ -40,7 +40,7 @@ export default function () {
       }
 
       //If not admin, create a chat with the admin
-      const chatWithAdminID = `${res.user.uid}${process.env.REACT_APP_ADMIN_ID}`;
+      const chatWithAdminID = `${res.user.uid}KAFJPfX9eqegj1BfHyEnmINMJ222`;
 
       const chatWithAdmin = await getDoc(doc(db, "chats", chatWithAdminID));
       const chatLogHistory = await getDoc(doc(db, "emailLog", chatWithAdminID));
@@ -57,7 +57,7 @@ export default function () {
         // create user chats
         await updateDoc(doc(db, "userChats", res.user.uid), {
           [chatWithAdminID + ".userInfo"]: {
-            uid: process.env.REACT_APP_ADMIN_ID,
+            uid: "KAFJPfX9eqegj1BfHyEnmINMJ222",
             displayName: "Mehmet Nadi",
           },
           [chatWithAdminID + ".date"]: serverTimestamp(),
