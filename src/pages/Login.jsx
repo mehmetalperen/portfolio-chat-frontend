@@ -43,6 +43,15 @@ export default function () {
       const chatWithAdminID = `${res.user.uid}${process.env.REACT_APP_ADMIN_ID}`;
 
       const chatWithAdmin = await getDoc(doc(db, "chats", chatWithAdminID));
+      const chatLogHistory = await getDoc(doc(db, "emailLog", chatWithAdmin));
+
+      if (!chatLogHistory.exists()) {
+        await setDoc(
+          doc(db, "emailLog", chatWithAdminID, {
+            emailNotificiationHistory: [],
+          })
+        );
+      }
 
       if (!chatWithAdmin.exists()) {
         //create collection if no chat with admin found
