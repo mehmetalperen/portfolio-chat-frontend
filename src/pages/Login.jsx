@@ -15,7 +15,7 @@ import {
 import { UserChatContex } from "../contex/ChatContex";
 
 export default function () {
-  const { user, updateAdminRole } = UserAuth();
+  const { user } = UserAuth();
   const navigate = useNavigate();
   const { dispatch } = UserChatContex();
 
@@ -23,8 +23,6 @@ export default function () {
     try {
       const provider = new GoogleAuthProvider();
       const res = await signInWithPopup(auth, provider);
-
-      updateAdminRole(res.user.email === "mhmtalperennadi@gmail.com");
 
       const userDB = await getDoc(doc(db, "users", res.user.uid));
 

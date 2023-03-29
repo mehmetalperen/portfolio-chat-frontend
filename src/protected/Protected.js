@@ -6,6 +6,8 @@ export default function Protected({ children }) {
   const { user } = UserAuth();
 
   if (!user) {
+    console.log("user", user);
+    console.log("!user", !user);
     return <Navigate to="/" />;
   }
   return children;

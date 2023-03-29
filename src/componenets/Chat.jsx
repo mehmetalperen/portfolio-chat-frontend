@@ -20,7 +20,7 @@ import {
 import { v4 as uuid } from "uuid";
 function Chat() {
   const { user } = UserAuth();
-  const { data } = UserChatContex();
+  const { data, dispatch } = UserChatContex();
   const [newMsg, setNewMsg] = useState("");
   const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
@@ -41,6 +41,15 @@ function Chat() {
       unsubscribe2();
     };
   }, [data.chatId]);
+
+  useEffect(() => {
+    if (user?.uid) {
+      dispatch({
+        type: "CHANGE_USER",
+        payload: { displayName: user.displayName, uid: user.uid },
+      });
+    }
+  }, [user]);
 
   const sendMessage = async (e) => {
     e.preventDefault();
