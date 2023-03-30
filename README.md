@@ -12,3 +12,13 @@ This project is for people who visit my [portfolio](https://www.mehmetnadi.com/)
 
 ### How does it work?
 A user signs in/up with their Google account and becomes immediately able to message me, easy and simple. When a user receives a message, he/she will be notified via email. 
+
+### Technologies being used?
+* React
+* Firebase Database
+* Firebase Authentication
+* Firebase Cloud Funtions
+* Firebase Hosting
+* HTML/CSS
+* Boostrap
+* Sendgrid
